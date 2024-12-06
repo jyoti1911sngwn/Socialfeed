@@ -1,33 +1,32 @@
 import React, { useState } from "react";
 
-function PostForm({ addPost }) {
-  const [message, setMessage] = useState("")
-  const [image, setImage] = useState(null)
-  const maxChars = 200
+function PostForm({ addPost, darkMode }) {
+  const [message, setMessage] = useState("");
+  const [image, setImage] = useState(null);
+  const maxChars = 200;
+
   const handlePostSubmit = (e) => {
-    e.preventDefault()
+    e.preventDefault();
     if (message.trim() || image) {
-      addPost(message, image)
-      setMessage("")
-      setImage(null) 
+      addPost(message, image);
+      setMessage("");
+      setImage(null);
     }
-  }
+  };
 
   const handleImageChange = (e) => {
-    const file = e.target.files[0]
+    const file = e.target.files[0];
     if (file) {
-      setImage(URL.createObjectURL(file))
+      setImage(URL.createObjectURL(file));
     }
-  }
+  };
 
   const handleMessageChange = (e) => {
-    const input = e.target.value
+    const input = e.target.value;
     if (input.length <= maxChars) {
-      setMessage(input)
+      setMessage(input);
     }
-  }
-
-
+  };
 
   return (
     <form onSubmit={handlePostSubmit} className="post-form space-y-4 px-4 sm:px-12 pt-4">
@@ -37,18 +36,18 @@ function PostForm({ addPost }) {
         maxLength={maxChars}
         placeholder="What's on your mind?"
         rows="3"
-        className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+        className={`w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+          darkMode ? "text-white bg-gray-800" : "text-black bg-white"
+        }`}
       />
-      <p className="text-right text-sm text-gray-500">
-        {message.length}/{maxChars}
-      </p>
+      <div className="w-full  p-0">
+        <p className="text-right text-sm break-words text-gray-500">
+          Character Limit : {message.length}/{maxChars}
+        </p>
+      </div>
       {image && (
         <div className="mt-2 flex justify-center items-center space-x-2">
-          <img
-            src={image}
-            alt="Preview"
-            className="w-[50%] h-auto rounded-md"
-          />
+          <img src={image} alt="Preview" className="w-[20%] h-auto rounded-md" />
         </div>
       )}
       <div className="flex justify-between">
@@ -67,7 +66,7 @@ function PostForm({ addPost }) {
         </button>
       </div>
     </form>
-  )
+  );
 }
 
 export default PostForm;
